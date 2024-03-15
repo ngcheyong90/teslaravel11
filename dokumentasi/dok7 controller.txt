@@ -1,0 +1,35 @@
+php artisan make:controller barangController
+
+Nanti  muncul Controllernya
+
+Cara memanggil dari route di web.php adalah sebagai berikut
+
+Route::get('barang','App\Http\Controllers\barangController@index');
+
+
+Untuk controller include database
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
+
+misalkan public function index()
+{
+ 	 $barangs = DB::table('barangs')->get();
+            $namabarang=array();$idbarang=array();
+            foreach ($barangs as $barang) {
+                array_push($namabarang,$barang->nama);
+                array_push($idbarang,$barang->id);
+                // echo $barang->nama;
+            }
+
+            return View('barang')->with('namabarang',$namabarang)
+            ->with('idbarang',$idbarang);
+}
+
+nANTI DI view barang.blade.php
+<h1>Passing Data ke Views</h1>
+    <div class=""></div>
+    <input type="text" name="cari" placeholder="Cari"><button>Cari</button><br/>
+    @foreach ($idbarang as $index=>$id)
+    {{ $id." - ".$namabarang[$index] }} <button>{{ "Update ".$namabarang["$index"]}}</button> <br/>
+    @endforeach

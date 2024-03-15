@@ -1,0 +1,38 @@
+Tugas besok: saya harus bisa modif database semua. dan buat database semua. setelah itu tugas besok lusa saya harus bisa mengakses database lewat laravel, dan membuat form
+
+
+Routes
+
+Route::get('/test-koneksi-database', function() {
+	try {
+		\DB::connection()->getPdo();
+
+		echo 'Sudah terkoneksi dengan database: ' . \DB::connection()->getDatabaseName();
+
+	} catch (\Exception $e) {
+		echo 'Belum terkoneksi database, error: ' . $e->getMessage();
+	}
+});
+
+
+
+
+Membuat database dari migration laravel
+
+php artisan make:model namatabel-barang --migration
+
+Setelah udah buat model kemudian
+php artisan make:migration add_nisnama_to_barangs --table=barangs
+
+Kemudian di function up tambahkan
+$table->string('nis', 50);
+$table->string('nama', 100);
+
+dan di function down tambahkan
+$table->dropColumn('nis');
+$table->dropColumn('nama');
+
+Function down penting untuk rollback karena bekerja team
+
+terus untuk menambahkan ke database
+php artisan migrate
